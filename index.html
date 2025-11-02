@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Miel Fondal - Un avenir durable et inclusif pour la RDC</title>
+    <meta name="description" content="Miel-Fondal accompagne la population dans sa transformation vers un développement durable et inclusif en République Démocratique du Congo." />
+    <meta name="author" content="Miel Fondal" />
+
+    <meta property="og:title" content="Miel Fondal - Un avenir durable et inclusif pour la RDC" />
+    <meta property="og:description" content="Miel-Fondal accompagne la population dans sa transformation vers un développement durable et inclusif en République Démocratique du Congo." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://mielfondal.org/wp-content/uploads/2025/08/logo-miel-fondal-abeil.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@mielfondal" />
+    <meta name="twitter:image" content="https://mielfondal.org/wp-content/uploads/2025/08/logo-miel-fondal-abeil.png" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const notifyParentOfPath = () => {
+          window.parent.postMessage(
+            {
+              type: 'spa-path-update',
+              slug: window.location.pathname
+            },
+            '*'
+          );
+        };
+      
+        notifyParentOfPath(); // envoyer au premier chargement
+      
+        // Envoyer le nouveau slug à chaque navigation (si tu utilises un routeur comme VueRouter ou ReactRouter)
+        window.addEventListener('popstate', notifyParentOfPath);
+        window.history.pushState = new Proxy(window.history.pushState, {
+          apply: function (target, thisArg, argumentsList) {
+            target.apply(thisArg, argumentsList);
+            notifyParentOfPath();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
